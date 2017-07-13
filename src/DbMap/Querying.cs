@@ -32,6 +32,32 @@ namespace DbMap
                 return command.ExecuteReader();
         }
 
+        public static T ExecuteScalar<T>(DbConnection connection, string commandText) =>
+            ExecuteScalar<T>(connection, commandText, false, null);
+
+        public static T ExecuteScalar<T>(DbConnection connection, string commandText, object parameters) =>
+            ExecuteScalar<T>(connection, commandText, false, parameters);
+
+        public static T ExecuteScalar<T>(DbConnection connection, string commandText, bool isStoredProcedure, object parameters)
+        {
+            return
+                Mapping.MapTo<T>(
+                    ExecuteScalar(connection, commandText, isStoredProcedure, parameters)
+                );
+        }
+
+        public static object ExecuteScalar(DbConnection connection, string commandText) =>
+            ExecuteScalar(connection, commandText, false, null);
+
+        public static object ExecuteScalar(DbConnection connection, string commandText, object parameters) =>
+            ExecuteScalar(connection, commandText, false, parameters);
+        
+        public static object ExecuteScalar(DbConnection connection, string commandText, bool isStoredProcedure, object parameters)
+        {
+            using (var command = CreateCommand(connection, commandText, isStoredProcedure, parameters))
+                return command.ExecuteScalar();
+        }
+        
         private static DbCommand CreateCommand(DbConnection connection, string commandText, bool isStoredProcedure, object parameters = null)
         {
 

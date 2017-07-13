@@ -24,6 +24,25 @@ namespace DbMap
         public static DbDataReader ExecuteReader(this DbConnection @this, string commandText, bool isStoredProcedure, object parameters) =>
             Querying.ExecuteReader(@this, commandText, isStoredProcedure, parameters);
 
+        public static object ExecuteScalar(this DbConnection @this, string commandText) =>
+            Querying.ExecuteScalar(@this, commandText);
+
+        public static object ExecuteScalar(this DbConnection @this, string commandText, object parameters) =>
+            Querying.ExecuteScalar(@this, commandText, parameters);
+
+        public static object ExecuteScalar(this DbConnection @this, string commandText, bool isStoredProcedure, object parameters) =>
+            Querying.ExecuteScalar(@this, commandText, isStoredProcedure, parameters);
+        
+        public static T ExecuteScalar<T>(this DbConnection @this, string commandText) =>
+            Querying.ExecuteScalar<T>(@this, commandText);
+        
+        public static T ExecuteScalar<T>(this DbConnection @this, string commandText, object parameters) =>
+            Querying.ExecuteScalar<T>(@this, commandText, parameters);
+        
+        public static T ExecuteScalar<T>(this DbConnection @this, string commandText, bool isStoredProcedure, object parameters) =>
+            Querying.ExecuteScalar<T>(@this, commandText, isStoredProcedure, parameters);
+
+
     }
 
 }
