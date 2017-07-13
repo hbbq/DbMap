@@ -20,6 +20,18 @@ namespace DbMap
                 return command.ExecuteNonQuery();
         }
 
+        public static DbDataReader ExecuteReader(DbConnection connection, string commandText) =>
+            ExecuteReader(connection, commandText, false, null);
+        
+        public static DbDataReader ExecuteReader(DbConnection connection, string commandText, object parameters) =>
+            ExecuteReader(connection, commandText, false, parameters);
+
+        public static DbDataReader ExecuteReader(DbConnection connection, string commandText, bool isStoredProcedure, object parameters)
+        {
+            using (var command = CreateCommand(connection, commandText, isStoredProcedure, parameters))
+                return command.ExecuteReader();
+        }
+
         private static DbCommand CreateCommand(DbConnection connection, string commandText, bool isStoredProcedure, object parameters = null)
         {
 
