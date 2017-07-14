@@ -54,6 +54,22 @@ namespace DbMap
             }
             catch
             {
+
+                var innerType = Nullable.GetUnderlyingType(targetType);
+                if (innerType != null)
+                {
+                    object v = null;
+                    try
+                    {
+                        v = ChangeType(source, innerType);
+                    }
+                    catch
+                    {
+                        if (innerType == typeof(int)) return new int?();
+                    }
+                    if (innerType == typeof(int)) return new int?((int)v);
+                }
+
                 if (targetType == typeof(bool))
                 {
                     var s = source as string;

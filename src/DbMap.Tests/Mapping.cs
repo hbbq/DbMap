@@ -60,7 +60,7 @@ namespace DbMap.Tests
             o.ShouldBeOfType(typeof(decimal));
             ((decimal)o).ShouldBe(expectedResult);
         }
-        
+
         [Theory]
         [InlineData(0.0, false)]
         [InlineData(1.0, true)]
@@ -76,6 +76,61 @@ namespace DbMap.Tests
             o.ShouldBeOfType(typeof(bool));
             ((bool)o).ShouldBe(expectedResult);
         }
+        
+        [Theory]
+        [InlineData(3, 3, false)]
+        [InlineData(0.0, 0, false)]
+        [InlineData(1.0, 1, false)]
+        [InlineData(1.1, 1, false)]
+        [InlineData(1.9, 2, false)]
+        [InlineData("0", 0, false)]
+        [InlineData("1", 1, false)]
+        [InlineData(null, 0, true)]
+        [InlineData("a", 0, true)]
+        public static void MapToNullableInt(object source, int expectedResult, bool nullExpected)
+        {
+            var o = DbMap.Mapping.MapTo(source, typeof(int?), null) as int?;
+            if (nullExpected)
+            {
+                o.HasValue.ShouldBeFalse();
+            }
+            else
+            {
+                o.Value.ShouldBe(expectedResult);
+            }
+        }
+
+        //[Theory]
+        //[InlineData(3, 3)]
+        //[InlineData(0.0, 0)]
+        //[InlineData(1.0, 1)]
+        //[InlineData(1.1, 1.1)]
+        //[InlineData(1.9, 1.9)]
+        //[InlineData("0", 0)]
+        //[InlineData("1", 1)]
+        //[InlineData(null, 0)]
+        //public static void MapToDecimal(object source, decimal expectedResult)
+        //{
+        //    var o = DbMap.Mapping.MapTo(source, typeof(decimal), 0m);
+        //    o.ShouldBeOfType(typeof(decimal));
+        //    ((decimal)o).ShouldBe(expectedResult);
+        //}
+
+        //[Theory]
+        //[InlineData(0.0, false)]
+        //[InlineData(1.0, true)]
+        //[InlineData(1.1, true)]
+        //[InlineData("0", false)]
+        //[InlineData("1", true)]
+        //[InlineData("false", false)]
+        //[InlineData("true", true)]
+        //[InlineData(null, false)]
+        //public static void MapToBool(object source, bool expectedResult)
+        //{
+        //    var o = DbMap.Mapping.MapTo(source, typeof(bool), false);
+        //    o.ShouldBeOfType(typeof(bool));
+        //    ((bool)o).ShouldBe(expectedResult);
+        //}
 
     }
     
