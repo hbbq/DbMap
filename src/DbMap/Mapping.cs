@@ -3,7 +3,7 @@
 namespace DbMap
 {
     
-    internal static class Mapping
+    public static class Mapping
     {
 
         public static T MapTo<T>(object source)
