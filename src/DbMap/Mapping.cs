@@ -17,7 +17,7 @@ namespace DbMap
 
             try
             {
-                return (T) Convert.ChangeType(source, typeof(T));
+                return (T) ChangeType(source, typeof(T));
             }
             catch (FormatException)
             {
@@ -37,13 +37,34 @@ namespace DbMap
 
             try
             {
-                return Convert.ChangeType(source, targetType);
+                return ChangeType(source, targetType);
             }
             catch (FormatException)
             {
                 throw new Exception($@"Can't cast source of type {source.GetType().Name} to {targetType.Name}");
             }
 
+        }
+
+        private static object ChangeType(object source, Type targetType)
+        {
+            try
+            {
+                return Convert.ChangeType(source, targetType);
+            }
+            catch
+            {
+                if (targetType == typeof(bool))
+                {
+                    var s = source as string;
+                    if (s != null)
+                    {
+                        if (s == "0") return false;
+                        if (s == "1") return true;
+                    }
+                }
+                throw;
+            }
         }
         
     }
