@@ -164,6 +164,30 @@ namespace DbMap.Tests
             o.E.ShouldBeNull();
         }
 
+        [Fact]
+        public static void CreateObjectTInts()
+        {
+            var o = DbMap.Mapping.CreateObject<TestClass<int>>(GetTestDictionary());
+            o.ShouldNotBeNull();
+            o.A.ShouldBe(1);
+            o.B.ShouldBe(1);
+            o.C.ShouldBe(1);
+            o.D.ShouldBe(1);
+            o.E.ShouldBe(default(int));
+        }
+
+        [Fact]
+        public static void CreateObjectTDecimals()
+        {
+            var o = DbMap.Mapping.CreateObject<TestClass<decimal>>(GetTestDictionary());
+            o.ShouldNotBeNull();
+            o.A.ShouldBe(1);
+            o.B.ShouldBe(1);
+            o.C.ShouldBe(1.123m);
+            o.D.ShouldBe(1.123m);
+            o.E.ShouldBe(default(decimal));
+        }
+
     }
     
 }
