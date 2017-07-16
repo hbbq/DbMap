@@ -1,10 +1,36 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace DbMap
 {
     
     public static class Mapping
     {
+
+        public static T CreateObject<T>(Dictionary<string, object> source) where T: new()
+        {
+            var obj = new T();
+            FillObject<T>(source, ref obj);
+            return obj;
+        }
+
+        public static void FillObject<T>(Dictionary<string, object> source, ref T target)
+        {
+            foreach(var key in source.Keys)
+            {
+                foreach(var prop in typeof(T).GetProperties().Where(p => p.CanWrite && p.Name.ToLower() == key.ToLower()))
+                {
+                    var value = source[key];
+                    if (value == DBNull.Value) value = null;
+                    if (value != null)
+                    {
+                        var targetValue = MapTo(value, prop.PropertyType, null);
+                        prop.SetValue(target, targetValue);
+                    }
+                }
+            }
+        }
 
         public static T MapTo<T>(object source)
         {

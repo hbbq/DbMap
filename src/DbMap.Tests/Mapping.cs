@@ -1,4 +1,5 @@
 ﻿using Shouldly;
+using System.Collections.Generic;
 using Xunit;
 
 namespace DbMap.Tests
@@ -131,6 +132,37 @@ namespace DbMap.Tests
         //    o.ShouldBeOfType(typeof(bool));
         //    ((bool)o).ShouldBe(expectedResult);
         //}
+
+        private class TestClass<T>
+        {
+            public T A { get; set; }
+            public T B { get; set; }
+            public T C { get; set; }
+            public T D { get; set; }
+            public T E { get; set; }
+        }
+
+        private static Dictionary<string, object> GetTestDictionary() =>
+            new Dictionary<string, object>
+            {
+                {"a", "1"},
+                {"b", 1},
+                {"c", 1.123m},
+                {"d", 1.123 },
+                {"e", null},
+            };
+
+        [Fact]
+        public static void CreateObjectTStrings()
+        {
+            var o = DbMap.Mapping.CreateObject<TestClass<string>>(GetTestDictionary());
+            o.ShouldNotBeNull();
+            o.A.ShouldBe("1");
+            o.B.ShouldBe("1");
+            o.C.ShouldContain("123");
+            o.D.ShouldContain("123");
+            o.E.ShouldBeNull();
+        }
 
     }
     

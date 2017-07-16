@@ -8,6 +8,12 @@ namespace TestApp
     // ReSharper disable once ClassNeverInstantiated.Global
     internal class Program
     {
+
+        private class Class1
+        {
+            public int A { get; set; }
+            public string B { get; set; }
+        }
         
         private static void Main()
         {
@@ -39,6 +45,7 @@ namespace TestApp
                 var String = cn.ExecuteScalar<string>("select count(a) from a");
                 var int2 = cn.ExecuteScalar<int>("select b from a");
                 var string2 = cn.ExecuteScalar<string>("select b from a");
+
                 // ReSharper restore UnusedVariable
 
             }
