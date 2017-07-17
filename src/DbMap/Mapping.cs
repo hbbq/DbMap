@@ -25,7 +25,7 @@ namespace DbMap
                     if (value == DBNull.Value) value = null;
                     if (value != null)
                     {
-                        var targetValue = MapTo(value, prop.PropertyType, null);
+                        var targetValue = MapTo(value, prop.PropertyType);
                         prop.SetValue(target, targetValue);
                     }
                 }
@@ -37,7 +37,7 @@ namespace DbMap
 
             if (source == DBNull.Value) source = null;
 
-            if (source == null) return default(T);
+            if (source == null) return (T) GetDefault(typeof(T));
 
             if (source is T) return (T) source;
 
@@ -52,12 +52,12 @@ namespace DbMap
 
         }
 
-        public static object MapTo(object source, Type targetType, object defaultValue)
+        public static object MapTo(object source, Type targetType)
         {
 
             if (source == DBNull.Value) source = null;
 
-            if (source == null) return defaultValue;
+            if (source == null) return GetDefault(targetType);
 
             if (source.GetType() == targetType || source.GetType().IsSubclassOf(targetType)) return source;
 
@@ -72,7 +72,7 @@ namespace DbMap
 
         }
 
-        private static object ChangeType(object source, Type targetType)
+        private static object ChangeType(object source, Type targetType, bool fallbackToDefault = true)
         {
             try
             {
@@ -87,15 +87,15 @@ namespace DbMap
                     object v = null;
                     try
                     {
-                        v = ChangeType(source, innerType);
+                        v = ChangeType(source, innerType, false);
                     }
                     catch
                     {
-                        if (innerType == typeof(int)) return new int?();
+                        return GetDefault(targetType);
                     }
-                    if (innerType == typeof(int)) return new int?((int)v);
+                    return Activator.CreateInstance(targetType, new[] { v });
                 }
-
+                                
                 if (targetType == typeof(bool))
                 {
                     var s = source as string;
@@ -105,10 +105,16 @@ namespace DbMap
                         if (s == "1") return true;
                     }
                 }
+                if(fallbackToDefault) return GetDefault(targetType);
                 throw;
             }
         }
-        
+
+        private static object GetDefault(Type type)
+        {
+            return type.IsValueType ? Activator.CreateInstance(type) : null;
+        }
+
     }
     
 }
