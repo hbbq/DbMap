@@ -1,6 +1,7 @@
 ﻿using System.Data.Common;
 using System.Data;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace DbMap
 {
@@ -56,6 +57,24 @@ namespace DbMap
         {
             using (var command = CreateCommand(connection, commandText, isStoredProcedure, parameters))
                 return command.ExecuteScalar();
+        }
+        
+        public static DataTable ExecuteToDataTable(DbConnection connection, string commandText) =>
+            ExecuteToDataTable(connection, commandText, false, null);
+
+        public static DataTable ExecuteToDataTable(DbConnection connection, string commandText, object parameters) =>
+            ExecuteToDataTable(connection, commandText, false, parameters);
+
+        public static DataTable ExecuteToDataTable(DbConnection connection, string commandText, bool isStoredProcedure, object parameters)
+        {
+            using (var command = CreateCommand(connection, commandText, isStoredProcedure, parameters))
+            using (var adapter = DbProviderFactories.GetFactory(connection).CreateDataAdapter())
+            {
+                var table = new DataTable();
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+                return table
+            }  
         }
         
         private static DbCommand CreateCommand(DbConnection connection, string commandText, bool isStoredProcedure, object parameters = null)

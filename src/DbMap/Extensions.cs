@@ -1,4 +1,5 @@
-﻿using System.Data.Common;
+﻿using System.Data;
+using System.Data.Common;
 
 namespace DbMap
 {
@@ -42,6 +43,14 @@ namespace DbMap
         public static T ExecuteScalar<T>(this DbConnection @this, string commandText, bool isStoredProcedure, object parameters) =>
             Querying.ExecuteScalar<T>(@this, commandText, isStoredProcedure, parameters);
 
+        public static DataTable ExecuteToDataTable(this DbConnection @this, , string commandText) =>
+           Querying.ExecuteToDataTable(@this, commandText);
+
+        public static DataTable ExecuteToDataTable(this DbConnection @this, , string commandText, object parameters) =>
+            Querying.ExecuteToDataTable(@this, commandText, parameters);
+
+        public static DataTable ExecuteToDataTable(this DbConnection @this, , string commandText, bool isStoredProcedure, object parameters) =>
+            Querying.ExecuteToDataTable(@this, commandText, false, parameters);
 
     }
 
