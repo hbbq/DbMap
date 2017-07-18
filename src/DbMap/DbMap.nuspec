@@ -3,7 +3,7 @@
     <metadata>
         <!-- Required elements-->
         <id>HBBq.DbMap</id>
-        <version></version>
+        <version>$version$</version>
         <description>DbMap</description>
         <authors>HBBq</authors>
 
