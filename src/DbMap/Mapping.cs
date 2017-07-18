@@ -8,20 +8,20 @@ namespace DbMap
     public static class Mapping
     {
 
-        public static T CreateObject<T>(Dictionary<string, object> source) where T: new()
+        public static T CreateObject<T>(IEnumerable<KeyValuePair<string, object>> source) where T: new()
         {
             var obj = new T();
             FillObject<T>(source, ref obj);
             return obj;
         }
 
-        public static void FillObject<T>(Dictionary<string, object> source, ref T target)
+        public static void FillObject<T>(IEnumerable<KeyValuePair<string, object>> source, ref T target)
         {
-            foreach(var key in source.Keys)
+            foreach(var pair in source)
             {
-                foreach(var prop in typeof(T).GetProperties().Where(p => p.CanWrite && p.Name.ToLower() == key.ToLower()))
+                foreach(var prop in typeof(T).GetProperties().Where(p => p.CanWrite && p.Name.ToLower() == pair.Key.ToLower()))
                 {
-                    var value = source[key];
+                    var value = pair.Value;
                     if (value == DBNull.Value) value = null;
                     if (value != null)
                     {

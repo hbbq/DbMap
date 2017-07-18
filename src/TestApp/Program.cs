@@ -30,6 +30,7 @@ namespace TestApp
                 cn.ExecuteNonQuery("create table a (a int, b text)");
 
                 cn.ExecuteNonQuery("insert into a (a, b) values (1, '1')");
+                cn.ExecuteNonQuery("insert into a (a, b) values (2, '3')");
 
                 using (var reader = cn.ExecuteReader("select a, b from a"))
                 {
@@ -46,12 +47,20 @@ namespace TestApp
                 var int2 = cn.ExecuteScalar<int>("select b from a");
                 var string2 = cn.ExecuteScalar<string>("select b from a");
 
+                var list = cn.Execute<TestClass>("select * from a");
+
                 // ReSharper restore UnusedVariable
 
             }
 
             Console.ReadLine();
 
+        }
+
+        private class TestClass
+        {
+            public int A { get; set; }
+            public string B { get; set; }
         }
         
     }

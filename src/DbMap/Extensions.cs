@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 
 namespace DbMap
@@ -43,14 +44,23 @@ namespace DbMap
         public static T ExecuteScalar<T>(this DbConnection @this, string commandText, bool isStoredProcedure, object parameters) =>
             Querying.ExecuteScalar<T>(@this, commandText, isStoredProcedure, parameters);
 
-        public static DataTable ExecuteToDataTable(this DbConnection @this, , string commandText) =>
+        public static DataTable ExecuteToDataTable(this DbConnection @this, string commandText) =>
            Querying.ExecuteToDataTable(@this, commandText);
 
-        public static DataTable ExecuteToDataTable(this DbConnection @this, , string commandText, object parameters) =>
+        public static DataTable ExecuteToDataTable(this DbConnection @this, string commandText, object parameters) =>
             Querying.ExecuteToDataTable(@this, commandText, parameters);
 
-        public static DataTable ExecuteToDataTable(this DbConnection @this, , string commandText, bool isStoredProcedure, object parameters) =>
+        public static DataTable ExecuteToDataTable(this DbConnection @this, string commandText, bool isStoredProcedure, object parameters) =>
             Querying.ExecuteToDataTable(@this, commandText, false, parameters);
+
+        public static List<T> Execute<T>(this DbConnection @this, string commandText) where T : new() =>
+            Querying.Execute<T>(@this, commandText);
+
+        public static List<T> Execute<T>(this DbConnection @this, string commandText, object parameters) where T : new() =>
+            Querying.Execute<T>(@this, commandText, parameters);
+
+        public static List<T> Execute<T>(this DbConnection @this, string commandText, bool isStoredProcedure, object parameters) where T : new() =>
+            Querying.Execute<T>(@this, commandText, isStoredProcedure, parameters);
 
     }
 

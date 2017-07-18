@@ -73,8 +73,34 @@ namespace DbMap
                 var table = new DataTable();
                 adapter.SelectCommand = command;
                 adapter.Fill(table);
-                return table
+                return table;
             }  
+        }
+
+        public static List<T> Execute<T>(DbConnection connection, string commandText) where T : new() =>
+            Execute<T>(connection, commandText, false, null);
+
+        public static List<T> Execute<T>(DbConnection connection, string commandText, object parameters) where T : new() =>
+            Execute<T>(connection, commandText, false, parameters);
+
+        public static List<T> Execute<T>(DbConnection connection, string commandText, bool isStoredProcedure, object parameters) where T : new()
+        {
+            using (var table = ExecuteToDataTable(connection, commandText, isStoredProcedure, parameters))
+            {
+
+                var list = new List<T>();
+                
+                foreach(DataRow row in table.Rows)
+                {
+                    var pairs = Enumerable.Range(0, table.Columns.Count).Select(i =>
+                        new KeyValuePair<string, object>(table.Columns[i].ColumnName, row[i])
+                    );
+                    list.Add(Mapping.CreateObject<T>(pairs));
+                }
+
+                return list;
+
+            }
         }
         
         private static DbCommand CreateCommand(DbConnection connection, string commandText, bool isStoredProcedure, object parameters = null)
