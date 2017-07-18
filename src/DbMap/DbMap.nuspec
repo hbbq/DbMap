@@ -4,10 +4,11 @@
         <!-- Required elements-->
         <id>HBBq.DbMap</id>
         <version>$version$</version>
-        <description>DbMap</description>
+        <description>A library with extensions for DbConnection to execute queries and optionally map the results to types</description>
         <authors>HBBq</authors>
 
         <!-- Optional elements -->
+      <projectUrl>https://github.com/hbbq/DbMap</projectUrl>
         <!-- ... -->
     </metadata>
   <files>

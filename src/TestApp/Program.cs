@@ -42,7 +42,7 @@ namespace TestApp
 
                 // ReSharper disable UnusedVariable
                 var o = cn.ExecuteScalar("select a from a");
-                var Int = cn.ExecuteScalar<int>("select count(a) from a");
+                var Int = cn.ExecuteScalar<int>("select count(*) from a");
                 var String = cn.ExecuteScalar<string>("select count(a) from a");
                 var int2 = cn.ExecuteScalar<int>("select b from a");
                 var string2 = cn.ExecuteScalar<string>("select b from a");
