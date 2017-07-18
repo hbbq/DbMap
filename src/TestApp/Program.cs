@@ -18,6 +18,8 @@ namespace TestApp
         private static void Main()
         {
 
+            //Some integration tests with SQLite
+
             const string filename = "test.sqlite";
             
             SQLiteConnection.CreateFile(filename);
@@ -44,7 +46,7 @@ namespace TestApp
                 var o = cn.ExecuteScalar("select a from a");
                 var Int = cn.ExecuteScalar<int>("select count(*) from a");
                 var String = cn.ExecuteScalar<string>("select count(a) from a");
-                var int2 = cn.ExecuteScalar<int>("select b from a");
+                var int2 = cn.ExecuteScalar<int>("select b from a where a = @a", new { a = 1 });
                 var string2 = cn.ExecuteScalar<string>("select b from a");
 
                 var list = cn.Execute<TestClass>("select * from a");
