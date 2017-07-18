@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbMap", "DbMap\DbMap.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbMap.Tests", "DbMap.Tests\DbMap.Tests.csproj", "{FCE95850-723F-48CD-B781-A59FF09B6EAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{5CF90C27-4E46-4DCE-8355-9CB1BB2B4023}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FCE95850-723F-48CD-B781-A59FF09B6EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCE95850-723F-48CD-B781-A59FF09B6EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCE95850-723F-48CD-B781-A59FF09B6EAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CF90C27-4E46-4DCE-8355-9CB1BB2B4023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CF90C27-4E46-4DCE-8355-9CB1BB2B4023}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CF90C27-4E46-4DCE-8355-9CB1BB2B4023}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CF90C27-4E46-4DCE-8355-9CB1BB2B4023}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
