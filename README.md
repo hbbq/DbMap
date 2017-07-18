@@ -26,7 +26,7 @@ private static void Main()
     using (var cn = new SQLiteConnection(connectionString))
     {
         cn.Open();
-        var Persons = cn.Execute<Person>("select id, firstname, lastname from Persons");
+        var persons = cn.Execute<Person>("select id, firstname, lastname from Persons");
     }   
 }
 ```
@@ -36,7 +36,7 @@ Possibility to send parameters to query as instance of an anonymous (or named) t
 using (var cn = new SQLiteConnection(connectionString))
 {
     cn.Open();
-    var Id = cn.ExecuteScalar<int>(
+    var id = cn.ExecuteScalar<int>(
         "select id from Persons where firstname = @firstname and lastname = @lastname",
         new
         {
