@@ -52,6 +52,30 @@ namespace DbMap.Tests
             CleanUp(name);
         }
 
+        [Fact]
+        public static void ExecuteScalarTInt()
+        {
+            var name = CreateDb();
+            using (var cn = new SQLiteConnection($@"Data source={name}"))
+            {
+                cn.Open();
+                cn.ExecuteScalar<int>("select count(*) from a").ShouldBe(4);
+            }
+            CleanUp(name);
+        }
+
+        [Fact]
+        public static void ExecuteScalarTString()
+        {
+            var name = CreateDb();
+            using (var cn = new SQLiteConnection($@"Data source={name}"))
+            {
+                cn.Open();
+                cn.ExecuteScalar<string>("select count(*) from a").ShouldBe("4");
+            }
+            CleanUp(name);
+        }
+
     }
 
 }
