@@ -10,5 +10,7 @@
         <!-- Optional elements -->
         <!-- ... -->
     </metadata>
-    <!-- Optional 'files' node -->
+  <files>
+    <file src="bin\Release\DbMap.dll" target="lib\portable-windows8+net45" />
+  </files>
 </package>
