@@ -44,36 +44,116 @@ namespace DbMap.Tests
         public static void ExecuteScalar()
         {
             var name = CreateDb();
-            using (var cn = new SQLiteConnection($@"Data source={name}"))
+            try
             {
-                cn.Open();
-                cn.ExecuteScalar("select count(*) from a").ToString().ShouldBe("4");
+                using (var cn = new SQLiteConnection($@"Data source={name}"))
+                {
+                    cn.Open();
+                    cn.ExecuteScalar("select count(*) from a").ToString().ShouldBe("4");
+                }
             }
-            CleanUp(name);
+            finally
+            {
+                CleanUp(name);
+            }
         }
 
         [Fact]
         public static void ExecuteScalarTInt()
         {
             var name = CreateDb();
-            using (var cn = new SQLiteConnection($@"Data source={name}"))
+            try
             {
-                cn.Open();
-                cn.ExecuteScalar<int>("select count(*) from a").ShouldBe(4);
+                using (var cn = new SQLiteConnection($@"Data source={name}"))
+                {
+                    cn.Open();
+                    cn.ExecuteScalar<int>("select count(*) from a").ShouldBe(4);
+                }
             }
-            CleanUp(name);
+            finally
+            {
+                CleanUp(name);
+            }
         }
 
         [Fact]
         public static void ExecuteScalarTString()
         {
             var name = CreateDb();
-            using (var cn = new SQLiteConnection($@"Data source={name}"))
+            try
             {
-                cn.Open();
-                cn.ExecuteScalar<string>("select count(*) from a").ShouldBe("4");
+                using (var cn = new SQLiteConnection($@"Data source={name}"))
+                {
+                    cn.Open();
+                    cn.ExecuteScalar<string>("select count(*) from a").ShouldBe("4");
+                }
             }
-            CleanUp(name);
+            finally
+            {
+                CleanUp(name);
+            }
+        }
+
+        [Fact]
+        public void ExecuteTTwoTypesIntString()
+        {
+            var name = CreateDb();
+            try
+            {
+                using (var cn = new SQLiteConnection($@"Data source={name}"))
+                {
+                    cn.Open();
+                    var list = cn.Execute<TwoTypes<int, string>>("select a as item1, b as item2 from a order by a");
+                    list.ShouldNotBeNull();
+                    list.Count.ShouldBe(4);
+                    list[0].Item1.ShouldBe(1);
+                    list[1].Item1.ShouldBe(2);
+                    list[2].Item1.ShouldBe(3);
+                    list[3].Item1.ShouldBe(4);
+                    list[0].Item2.ShouldBe("a");
+                    list[1].Item2.ShouldBe("b");
+                    list[2].Item2.ShouldBe("c");
+                    list[3].Item2.ShouldBe("d");
+                }
+            }
+            finally
+            {
+                CleanUp(name);
+            }
+        }
+
+        [Fact]
+        public void ExecuteTTwoTypesStringChar()
+        {
+            var name = CreateDb();
+            try
+            {
+                using (var cn = new SQLiteConnection($@"Data source={name}"))
+                {
+                    cn.Open();
+                    var list = cn.Execute<TwoTypes<string, char>>("select a as item1, b as item2 from a order by a");
+                    list.ShouldNotBeNull();
+                    list.Count.ShouldBe(4);
+                    list[0].Item1.ShouldBe("1");
+                    list[1].Item1.ShouldBe("2");
+                    list[2].Item1.ShouldBe("3");
+                    list[3].Item1.ShouldBe("4");
+                    list[0].Item2.ShouldBe('a');
+                    list[1].Item2.ShouldBe('b');
+                    list[2].Item2.ShouldBe('c');
+                    list[3].Item2.ShouldBe('d');
+                }
+            }
+            finally
+            {
+                CleanUp(name);
+            }
+        }
+
+        private class TwoTypes<T1, T2>
+        {
+            public T1 Item1 { get; set; }
+            public T2 Item2 { get; set; }
         }
 
     }
