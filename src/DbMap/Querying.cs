@@ -106,6 +106,8 @@ namespace DbMap
         private static DbCommand CreateCommand(DbConnection connection, string commandText, bool isStoredProcedure, object parameters = null)
         {
 
+            if (connection.State != ConnectionState.Open) connection.Open();
+
             var command = connection.CreateCommand();
             command.CommandText = commandText;
             command.CommandType = isStoredProcedure ? CommandType.StoredProcedure : CommandType.Text;
