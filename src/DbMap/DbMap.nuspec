@@ -11,7 +11,5 @@
       <projectUrl>https://github.com/hbbq/DbMap</projectUrl>
         <!-- ... -->
     </metadata>
-  <files>
-    <file src="bin\Release\DbMap.dll" target="lib\net45" />
-  </files>
+
 </package>
