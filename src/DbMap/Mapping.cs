@@ -11,7 +11,7 @@ namespace DbMap
         public static T CreateObject<T>(IEnumerable<KeyValuePair<string, object>> source) where T: new()
         {
             var obj = new T();
-            FillObject<T>(source, ref obj);
+            FillObject(source, ref obj);
             return obj;
         }
 
@@ -84,7 +84,7 @@ namespace DbMap
                 var innerType = Nullable.GetUnderlyingType(targetType);
                 if (innerType != null)
                 {
-                    object v = null;
+                    object v;
                     try
                     {
                         v = ChangeType(source, innerType, false);

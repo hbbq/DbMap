@@ -70,6 +70,7 @@ namespace DbMap
             using (var command = CreateCommand(connection, commandText, isStoredProcedure, parameters))
             using (var adapter = DbProviderFactories.GetFactory(connection).CreateDataAdapter())
             {
+                if (adapter == null) return null;
                 var table = new DataTable();
                 adapter.SelectCommand = command;
                 adapter.Fill(table);
@@ -87,19 +88,14 @@ namespace DbMap
         {
             using (var table = ExecuteToDataTable(connection, commandText, isStoredProcedure, parameters))
             {
-
-                var list = new List<T>();
-                
-                foreach(DataRow row in table.Rows)
-                {
-                    var pairs = Enumerable.Range(0, table.Columns.Count).Select(i =>
-                        new KeyValuePair<string, object>(table.Columns[i].ColumnName, row[i])
-                    );
-                    list.Add(Mapping.CreateObject<T>(pairs));
-                }
-
-                return list;
-
+                return (
+                    from DataRow row 
+                    in table.Rows
+                    select Enumerable.Range(0, table.Columns.Count)
+                        .Select(i => new KeyValuePair<string, object>(table.Columns[i].ColumnName, row[i])).ToList() 
+                    into pairs
+                    select Mapping.CreateObject<T>(pairs)
+                ).ToList();
             }
         }
         

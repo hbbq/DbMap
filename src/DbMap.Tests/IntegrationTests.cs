@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Shouldly;
 
@@ -152,8 +148,10 @@ namespace DbMap.Tests
 
         private class TwoTypes<T1, T2>
         {
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
             public T1 Item1 { get; set; }
             public T2 Item2 { get; set; }
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
 
     }

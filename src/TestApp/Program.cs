@@ -8,12 +8,6 @@ namespace TestApp
     // ReSharper disable once ClassNeverInstantiated.Global
     internal class Program
     {
-
-        private class Class1
-        {
-            public int A { get; set; }
-            public string B { get; set; }
-        }
         
         private static void Main()
         {
@@ -61,8 +55,10 @@ namespace TestApp
 
         private class TestClass
         {
+            // ReSharper disable UnusedMember.Local
             public int A { get; set; }
             public string B { get; set; }
+            // ReSharper restore UnusedMember.Local
         }
         
     }

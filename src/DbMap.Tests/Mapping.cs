@@ -82,7 +82,8 @@ namespace DbMap.Tests
             }
             else
             {
-                o.Value.ShouldBe(expectedResult);
+                o.HasValue.ShouldBeTrue();
+                o?.ShouldBe(expectedResult);
             }
         }
 
@@ -102,7 +103,8 @@ namespace DbMap.Tests
             }
             else
             {
-                o.Value.ShouldBe(expectedResult);
+                o.HasValue.ShouldBeTrue();
+                o?.ShouldBe(expectedResult);
             }
         }
 
@@ -125,17 +127,20 @@ namespace DbMap.Tests
             }
             else
             {
-                o.Value.ShouldBe(expectedResult);
+                o.HasValue.ShouldBeTrue();
+                o?.ShouldBe(expectedResult);
             }
         }
 
         private class TestClass<T>
         {
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
             public T A { get; set; }
             public T B { get; set; }
             public T C { get; set; }
             public T D { get; set; }
             public T E { get; set; }
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
 
         private static Dictionary<string, object> GetTestDictionary() =>
